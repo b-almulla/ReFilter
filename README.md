@@ -13,3 +13,41 @@ The replication package supports full reproducibility so researchers and practit
 * embedding_baselines: Scripts for embedding baseline.
 * data: includes the golden truth.
 * refilter_method: Inlcudes scripts for preprocessing, candidate retrieval, and LLM filtering.
+
+## Preprocessing
+
+Our preprocessing consists of two stages: (1) applying the baseline procedure introduced in prior work, and (2) applying our extensions for improved text normalization.
+
+### 1. Baseline Preprocessing (Prior Work)
+
+We follow the preprocessing procedure introduced by Wei et al. [1], which includes:
+
+- Language filtering (retaining only English descriptions),
+- Removal of noisy sentences containing URLs, emails, or boilerplate phrases (e.g., privacy policy, subscription information),
+- Removal of emojis.
+
+The original implementation is publicly available in the authors’ replication package:
+
+**Repository:** https://github.com/Jl-wei/feature-inspiration  
+**File used:** `preprocessing.py`  
+(See the original project for full details and instructions.)
+
+To reproduce our results, first run their preprocessing script on the raw app data to obtain the baseline-cleaned descriptions.
+
+### 2. ReFilter Extended Preprocessing (Our Additions)
+
+After generating the baseline-preprocessed file, we apply our own extensions to improve text consistency and prepare descriptions for embedding-based retrieval. Specifically, we:
+
+- Normalize whitespace,
+- Convert all text to lowercase,
+- Remove HTML tags and markup,
+- Strip metadata-like content that does not describe app functionality,
+- Remove apps with descriptions containing fewer than **200 characters**, following the same threshold used in Wei et al. (ASE 2024).
+
+Our preprocessing script implementing these extensions is provided in refilter_method/preprocessing.py
+
+Reference: 
+
+[1] Jialiang Wei, Anne-Lise Courbis, Thomas Lambolais, Binbin Xu, Pierre Louis Bernard, Gerard Dray, and Walid Maalej. 2024. Getting Inspiration for Feature Elicitation: App Store- vs. LLM-based Approach. In Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (Sacramento, CA, USA) (ASE ’24). Association for Computing Machinery, New York, NY, USA, 857–869. https://doi.org/10.1145/3691620.3695591
+
+
