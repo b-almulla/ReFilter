@@ -10,11 +10,12 @@ Traditional app-similarity approaches rely solely on embeddings, which capture s
 This two-step design enables both efficiency and precision, achieving 92% precision in identifying truly comparable mobile apps.
 The replication package supports full reproducibility so researchers and practitioners can explore app ecosystems, conduct competitor analysis, and study market dynamics with more accurate app-similarity signals. It includes:
 
+* refilter_method: Includes scripts for preprocessing, candidate retrieval, and LLM filtering.
 * embedding_baselines: Scripts for embedding baseline.
 * data: includes the golden truth.
-* refilter_method: Inlcudes scripts for preprocessing, candidate retrieval, and LLM filtering.
 
-## Preprocessing
+
+## Step 1: Preprocessing
 
 Our preprocessing consists of two stages: (1) applying the baseline procedure introduced in prior work, and (2) applying our extensions for improved text normalization.
 
@@ -45,6 +46,26 @@ After generating the baseline-preprocessed file, we apply our own extensions to 
 - Remove apps with descriptions containing fewer than **200 characters**, following the same threshold used in Wei et al. (ASE 2024).
 
 Our preprocessing script implementing these extensions is provided in refilter_method/preprocessing.py
+
+## Step 2: Candidate Retrieval
+
+We evaluate several embedding models in the paper and identify Linq as the most effective for retrieving functionally similar apps.
+
+Generate embeddings
+Each app description is converted into a vector representation using the Linq embedding model
+(script: candidate_embedding_LINQ.py).
+
+Compute similarity rankings
+For each target app, we compute cosine similarity between its embedding and all other apps, then produce a ranked list sorted by similarity
+(script: candidate_ranking.py).
+
+This ranking forms the candidate pool for the next stage.
+
+## Step 3: LLM Filtering
+We apply 2-shot prompting with GPT-5 to filter the candidate list and produce the final set of functionally similar apps
+(script: LLM_filtering.py).
+
+The model receives the target app, top-K candidates, and two decision examples, and returns a structured judgment for each candidate.
 
 Reference: 
 
