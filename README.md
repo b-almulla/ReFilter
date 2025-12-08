@@ -73,7 +73,7 @@ This folder contains the scripts used to generate the five baseline embedding se
 
 Included baselines:
 
-* 'BGE_avg.py': Generates embeddings using the BGE model, applying average pooling over all token embeddings.
+* `BGE_avg.py`: Generates embeddings using the BGE model, applying average pooling over all token embeddings.
 
 BGE_first.py
 Generates embeddings using the BGE model but uses only the first token (CLS-style) representation.
