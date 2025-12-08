@@ -7,7 +7,7 @@ Traditional app-similarity approaches rely solely on embeddings, which capture s
 
 * Filtering those candidates using an LLM to verify functional similarity using contextual reasoning
 
-This two-step design enables both efficiency and precision, achieving 92% precision in identifying truly comparable mobile apps.
+This two-step design enables both efficiency and precision, achieving 92% precision in identifying similar mobile apps.
 The replication package supports full reproducibility so researchers and practitioners can explore app ecosystems, conduct competitor analysis, and study market dynamics with more accurate app-similarity signals. It includes:
 
 * refilter_method: Includes scripts for preprocessing, candidate retrieval, and LLM filtering.
