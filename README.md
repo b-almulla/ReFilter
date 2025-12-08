@@ -11,15 +11,16 @@ This two-step design enables both efficiency and precision, achieving 92% precis
 The replication package supports full reproducibility so researchers and practitioners can explore app ecosystems, conduct competitor analysis, and study market dynamics with more accurate app-similarity signals. It includes:
 
 * refilter_method: Includes scripts for preprocessing, candidate retrieval, and LLM filtering.
-* embedding_baselines: Scripts for embedding baseline.
+* baselines: Scripts for embedding baseline.
 * data: includes the golden truth.
 
+## refilter_method
 
-## Step 1: Preprocessing
+### Step 1: Preprocessing
 
 Our preprocessing consists of two stages: (1) applying the baseline procedure introduced in prior work, and (2) applying our extensions for improved text normalization.
 
-### 1. Baseline Preprocessing (Prior Work)
+1. Baseline Preprocessing (Prior Work)
 
 We follow the preprocessing procedure introduced by Wei et al. [1], which includes:
 
@@ -35,7 +36,7 @@ The original implementation is publicly available in the authors’ replication 
 
 To reproduce our results, first run their preprocessing script on the raw app data to obtain the baseline-cleaned descriptions.
 
-### 2. ReFilter Extended Preprocessing (Our Additions)
+ReFilter Extended Preprocessing (Our Additions)
 
 After generating the baseline-preprocessed file, we apply our own extensions to improve text consistency and prepare descriptions for embedding-based retrieval. Specifically, we:
 
@@ -47,7 +48,7 @@ After generating the baseline-preprocessed file, we apply our own extensions to 
 
 Our preprocessing script implementing these extensions is provided in `refilter_method/step_1_preprocessing/preprocessing.py`
 
-## Step 2: Candidate Retrieval
+### Step 2: Candidate Retrieval
 
 We evaluate several embedding models in the paper and identify Linq as the most effective for retrieving functionally similar apps.
 
@@ -61,12 +62,34 @@ For each target app, we compute cosine similarity between its embedding and all 
 
 This ranking forms the candidate pool for the next stage.
 
-## Step 3: LLM Filtering
+### Step 3: LLM Filtering
 We apply 2-shot prompting with GPT-5 to filter the candidate list and produce the final set of functionally similar apps
 (script: `refilter_method/step_3_LLM_filtering/LLM_filtering.py`).
 
 The model receives the target app, top-K candidates, and two decision examples, and returns a structured judgment for each candidate.
 
+## baselines
+This folder contains the scripts used to generate the five baseline embedding sets that we compare against the LINQ model in our experiments. Each script produces one embedding per app using a different model or pooling strategy.
+
+Included baselines:
+
+* 'BGE_avg.py': Generates embeddings using the BGE model, applying average pooling over all token embeddings.
+
+BGE_first.py
+Generates embeddings using the BGE model but uses only the first token (CLS-style) representation.
+
+VoyageAI.py
+Produces a single embedding for each app using Voyage Multimodal, incorporating both the app description and all available screenshots.
+
+SigLIP2/
+This folder contains scripts for the SigLIP2 model.
+Each app’s text and images are embedded individually, then combined using two different pooling strategies to produce one final embedding per app:
+
+Simple average pooling
+
+Top-k pooling (highest-similarity elements)
+
+These baselines allow direct comparison with LINQ across diverse embedding architectures and pooling methods.
 Reference: 
 
 [1] Jialiang Wei, Anne-Lise Courbis, Thomas Lambolais, Binbin Xu, Pierre Louis Bernard, Gerard Dray, and Walid Maalej. 2024. Getting Inspiration for Feature Elicitation: App Store- vs. LLM-based Approach. In Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (Sacramento, CA, USA) (ASE ’24). Association for Computing Machinery, New York, NY, USA, 857–869. https://doi.org/10.1145/3691620.3695591
