@@ -45,7 +45,7 @@ After generating the baseline-preprocessed file, we apply our own extensions to 
 - Strip metadata-like content that does not describe app functionality,
 - Remove apps with descriptions containing fewer than **200 characters**, following the same threshold used in Wei et al. (ASE 2024).
 
-Our preprocessing script implementing these extensions is provided in `refilter_method/preprocessing.py`
+Our preprocessing script implementing these extensions is provided in `refilter_method/step_1_preprocessing/preprocessing.py`
 
 ## Step 2: Candidate Retrieval
 
@@ -53,17 +53,17 @@ We evaluate several embedding models in the paper and identify Linq as the most 
 
 Generate embeddings
 Each app description is converted into a vector representation using the Linq embedding model
-(script: `candidate_embedding_LINQ.py`).
+(script: `refilter_method/step_2_candidate_retrieval/candidate_embedding_LINQ.py`).
 
 Compute similarity rankings
 For each target app, we compute cosine similarity between its embedding and all other apps, then produce a ranked list sorted by similarity
-(script: `candidate_ranking.py`).
+(script: `refilter_method/step_2_candidate_retrieval/candidate_ranking.py`).
 
 This ranking forms the candidate pool for the next stage.
 
 ## Step 3: LLM Filtering
 We apply 2-shot prompting with GPT-5 to filter the candidate list and produce the final set of functionally similar apps
-(script: LLM_filtering.py).
+(script: `refilter_method/step_3_LLM_filtering/LLM_filtering.py`).
 
 The model receives the target app, top-K candidates, and two decision examples, and returns a structured judgment for each candidate.
 
