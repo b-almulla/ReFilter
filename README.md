@@ -20,7 +20,7 @@ The replication package supports full reproducibility so researchers and practit
 
 Our preprocessing consists of two stages: (1) applying the baseline procedure introduced in prior work, and (2) applying our extensions for improved text normalization.
 
-1. Baseline Preprocessing (Prior Work)
+1. **Baseline Preprocessing** (Prior Work)
 
 We follow the preprocessing procedure introduced by Wei et al. [1], which includes:
 
@@ -36,7 +36,7 @@ The original implementation is publicly available in the authors’ replication 
 
 To reproduce our results, first run their preprocessing script on the raw app data to obtain the baseline-cleaned descriptions.
 
-ReFilter Extended Preprocessing (Our Additions)
+2. **ReFilter Extended Preprocessing** (Our Additions)
 
 After generating the baseline-preprocessed file, we apply our own extensions to improve text consistency and prepare descriptions for embedding-based retrieval. Specifically, we:
 
