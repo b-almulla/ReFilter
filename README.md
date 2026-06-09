@@ -1,5 +1,7 @@
 # ReFilter
-ReFilter is a hybrid retrieval framework designed to identify functionally similar mobile applications by combining embedding-based retrieval with LLM-based contextual filtering. This repository contains all code, data processing scripts, prompts, evaluation materials, and instructions required to reproduce the results reported in our paper.
+ReFilter: a hybrid framework that first Retrieves semantically related candidate apps using embeddings and then applies LLM-based contextual Filtering to identify true functionally similar apps with higher precision. This design balances efficiency and accuracy, achieving an F1-score of 90% for retrieving similar apps.
+
+This repository contains all code, data processing scripts, prompts, evaluation materials, and instructions required to reproduce the results reported in our paper.
 
 Traditional app-similarity approaches rely solely on embeddings, which capture semantic similarity but often miss functional context, resulting in retrieved apps that are textually related but not actually comparable. ReFilter addresses this gap by:
 
@@ -7,7 +9,6 @@ Traditional app-similarity approaches rely solely on embeddings, which capture s
 
 * Filtering those candidates using an LLM to verify functional similarity using contextual reasoning
 
-This two-step design enables both efficiency and precision, achieving 92% precision in identifying similar mobile apps.
 The replication package supports full reproducibility so researchers and practitioners can explore app ecosystems, conduct competitor analysis, and study market dynamics with more accurate app-similarity signals. It includes:
 
 * refilter_method: Includes scripts for preprocessing, candidate retrieval, and LLM filtering.
